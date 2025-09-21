@@ -7,4 +7,5 @@ export interface GameState {
   secretWord: string; // palabra sorteada
   category: string; // categoría elegida
   turn: number; // índice en order
+  enableHints: boolean; // si se muestran pistas al impostor
 }

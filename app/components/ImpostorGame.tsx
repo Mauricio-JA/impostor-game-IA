@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo, useState, useEffect } from "react";
-import { DATASETS } from "../lib/datasets";
+import { DATASETS, HINTS } from "../lib/datasets";
 import { Phase, GameState } from "../lib/types";
 import { shuffle, randomChoice } from "../lib/functions";
 
@@ -24,6 +24,7 @@ export default function ImpostorGame() {
   const [nameInput, setNameInput] = useState("");
   const [category, setCategory] = useState<string>(Object.keys(DATASETS)[0]);
   const [customWordsRaw, setCustomWordsRaw] = useState<string>("");
+  const [enableHints, setEnableHints] = useState<boolean>(false);
   const [gs, setGs] = useState<GameState | null>(null);
   const [isRevealed, setIsRevealed] = useState(false);
 
@@ -96,6 +97,7 @@ export default function ImpostorGame() {
       secretWord,
       category: category,
       turn: 0,
+      enableHints,
     };
     setGs(newGs);
     setIsRevealed(false);
@@ -129,6 +131,7 @@ export default function ImpostorGame() {
       secretWord,
       category: category,
       turn: 0,
+      enableHints,
     };
     setGs(newGs);
     setIsRevealed(false);
@@ -261,6 +264,29 @@ export default function ImpostorGame() {
                 </div>
               </div>
 
+              {/* Opciones de juego */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-3">
+                  Opciones de juego
+                </label>
+                <div className="flex items-center gap-3">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={enableHints}
+                      onChange={(e) => setEnableHints(e.target.checked)}
+                      className="w-4 h-4 text-emerald-600 bg-gray-100 border-gray-300 rounded focus:ring-emerald-500"
+                    />
+                    <span className="text-sm">
+                      💡 Mostrar pistas al impostor
+                    </span>
+                  </label>
+                  <div className="text-xs opacity-70">
+                    El impostor verá una pista sobre la palabra secreta
+                  </div>
+                </div>
+              </div>
+
               <div className="flex flex-wrap items-center gap-3">
                 <button
                   onClick={startPreparation}
@@ -315,6 +341,18 @@ export default function ImpostorGame() {
                             Tu objetivo es pasar desapercibido durante la
                             discusión. No conoces la palabra secreta.
                           </p>
+                          {gs.enableHints &&
+                            HINTS[gs.category] &&
+                            HINTS[gs.category][gs.secretWord] && (
+                              <div className="mt-4 p-3 rounded-xl bg-amber-50 border border-amber-200">
+                                <div className="text-sm font-medium text-amber-800 mb-1">
+                                  💡 Pista para el impostor:
+                                </div>
+                                <div className="text-sm text-amber-700">
+                                  {HINTS[gs.category][gs.secretWord]}
+                                </div>
+                              </div>
+                            )}
                         </>
                       ) : (
                         <>
@@ -353,6 +391,7 @@ export default function ImpostorGame() {
                 <Pill>👥 {gs.players.length} jugadores</Pill>
                 <Pill>🗂️ {gs.category}</Pill>
                 <Pill>🔒 Modo privado: mostrar/ocultar</Pill>
+                {gs.enableHints && <Pill>💡 Pistas habilitadas</Pill>}
               </div>
             </section>
           )}
