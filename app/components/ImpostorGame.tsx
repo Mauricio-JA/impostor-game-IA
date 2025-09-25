@@ -3,6 +3,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import { DATASETS } from "../lib/datasets";
 import { Phase, GameState } from "../lib/types";
 import { shuffle, randomChoice } from "../lib/functions";
+import Image from "next/image";
 
 // ============================
 // Juego del Impostor (SPA)
@@ -158,8 +159,15 @@ export default function ImpostorGame() {
     <div className="min-h-screen w-full bg-gradient-to-br from-sky-50 via-white to-emerald-50 text-gray-800">
       <div className="mx-auto max-w-3xl p-6">
         <header className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-            🎭 Juego del Impostor
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              className="inline-block"
+              width={50}
+              height={50}
+            />{" "}
+            Juego del Impostor
           </h1>
           <div className="text-xs md:text-sm opacity-70">
             v1.1 • 100% offline
