@@ -1,4 +1,4 @@
-export type Phase = "setup" | "reveal_turns" | "discussion" | "revealed";
+export type Step = "setup" | "reveal_turns" | "discussion" | "revealed";
 
 export interface GameState {
   players: string[];
@@ -8,4 +8,12 @@ export interface GameState {
   category: string; // categoría elegida
   turn: number; // índice en order
   enableHints: boolean; // si se muestran pistas al impostor
+  selectedWords: string[];
 }
+
+export const STEPS: Record<Step, Step> = {
+  setup: "setup",
+  reveal_turns: "reveal_turns",
+  discussion: "discussion",
+  revealed: "revealed",
+};
