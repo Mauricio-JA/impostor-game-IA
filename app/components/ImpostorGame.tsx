@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo, useState, useEffect } from "react";
-import { DATASETS, HINTS } from "../lib/datasets";
+import { DATASETS } from "../lib/datasets";
 import { Phase, GameState } from "../lib/types";
 import { shuffle, randomChoice } from "../lib/functions";
 
@@ -55,7 +55,7 @@ export default function ImpostorGame() {
         .filter(Boolean);
       return words.length ? words : ["(agrega palabras arriba)"];
     }
-    return DATASETS[category] ?? [];
+    return Object.keys(DATASETS[category]) ?? [];
   }, [category, customWordsRaw]);
 
   function addPlayer() {
@@ -162,7 +162,7 @@ export default function ImpostorGame() {
             🎭 Juego del Impostor
           </h1>
           <div className="text-xs md:text-sm opacity-70">
-            v1.0 • 100% offline
+            v1.1 • 100% offline
           </div>
         </header>
 
@@ -240,7 +240,8 @@ export default function ImpostorGame() {
                   </select>
                   {category !== "Personalizado..." && (
                     <p className="mt-2 text-xs opacity-70">
-                      {DATASETS[category].length} palabras disponibles
+                      {Object.keys(DATASETS[category]).length} palabras
+                      disponibles
                     </p>
                   )}
                 </div>
@@ -342,14 +343,14 @@ export default function ImpostorGame() {
                             discusión. No conoces la palabra secreta.
                           </p>
                           {gs.enableHints &&
-                            HINTS[gs.category] &&
-                            HINTS[gs.category][gs.secretWord] && (
+                            DATASETS[gs.category] &&
+                            DATASETS[gs.category][gs.secretWord] && (
                               <div className="mt-4 p-3 rounded-xl bg-amber-50 border border-amber-200">
                                 <div className="text-sm font-medium text-amber-800 mb-1">
                                   💡 Pista para el impostor:
                                 </div>
                                 <div className="text-sm text-amber-700">
-                                  {HINTS[gs.category][gs.secretWord]}
+                                  {DATASETS[gs.category][gs.secretWord]}
                                 </div>
                               </div>
                             )}
