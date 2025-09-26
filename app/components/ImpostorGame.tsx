@@ -51,7 +51,11 @@ export default function ImpostorGame() {
           )}
 
           {step === STEPS.revealed && data && (
-            <RevealTurnsStep gameState={data} />
+            <RevealedStep
+              restartSamePlayers={restartSamePlayers}
+              newGame={newGame}
+              gameState={data}
+            />
           )}
         </div>
 
