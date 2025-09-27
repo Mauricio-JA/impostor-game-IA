@@ -1,4 +1,4 @@
-import { GameState } from "@/app/lib/types";
+import { GameState } from "@/lib/types";
 
 type Props = {
   restartSamePlayers: () => void;

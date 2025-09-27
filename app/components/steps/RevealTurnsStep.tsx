@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Pill from "../commons/Pill";
-import useImpostorGameStore from "../../stores/ImpostorGameStore";
-import { GameState, STEPS } from "../../lib/types";
-import { DATASETS } from "../../lib/datasets";
+import Pill from "@/components/commons/Pill";
+import useImpostorGameStore from "@/stores/ImpostorGameStore";
+import { GameState, STEPS } from "@/lib/types";
+import { DATASETS } from "@/lib/datasets";
 
 type Props = {
   gameState: GameState;

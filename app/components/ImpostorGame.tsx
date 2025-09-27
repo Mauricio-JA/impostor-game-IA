@@ -8,6 +8,8 @@ import useImpostorGame from "../hooks/useImpostorGame";
 import RevealTurnsPhase from "./steps/RevealTurnsStep";
 import DiscussionStep from "./steps/DiscussionStep";
 import RevealTurnsStep from "./steps/RevealTurnsStep";
+import { SimpleCardV1, SimpleCardV7 } from "./commons/Card";
+import RevealedStep from "./steps/RevealedStep";
 
 // ============================
 // Juego del Impostor (SPA)
@@ -34,7 +36,8 @@ export default function ImpostorGame() {
         <Header />
 
         {/* Tarjeta principal */}
-        <div className="rounded-3xl border bg-white/80 shadow-lg backdrop-blur p-5 md:p-7">
+
+        <SimpleCardV7>
           {step === STEPS.setup && (
             <SetupPhase startPreparation={startPreparation} />
           )}
@@ -57,7 +60,7 @@ export default function ImpostorGame() {
               gameState={data}
             />
           )}
-        </div>
+        </SimpleCardV7>
 
         <Footer />
       </div>

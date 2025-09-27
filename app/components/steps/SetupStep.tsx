@@ -3,6 +3,13 @@ import Pill from "../commons/Pill";
 import { DATASETS } from "../../lib/datasets";
 import usePlayers from "../../hooks/usePlayers";
 import { StartPreparationParams } from "../../hooks/useImpostorGame";
+import { Input, InputBlock, Select, TextArea } from "../commons/Input";
+import { Button_v1, Button_v8 } from "@/components/commons/Button";
+import { Separator } from "@/components/commons/Separator";
+import { Button } from "../ui/button";
+import { X } from "lucide-react";
+import { EyeCatchingButton_v2 } from "../commons/EyeCatchingButton";
+import { Checkbox } from "../ui/checkbox";
 
 type Props = {
   startPreparation: (params: StartPreparationParams) => void;
@@ -49,52 +56,46 @@ const SetupPhase = ({ startPreparation }: Props) => {
 
   return (
     <section>
-      <h2 className="text-xl font-semibold mb-4">Preparación</h2>
-
-      {/* Participantes */}
+      <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-gray-100 text-center">
+        Preparación
+      </h3>
+      {/* Jugadores */}
       <div className="mb-6">
-        <label className="block text-sm font-medium mb-2">
-          Agregar participante
+        <label className="block text-sm font-medium mb-1">
+          Agregar jugadores:
         </label>
         <div className="flex gap-2">
-          <input
-            type="text"
-            value={nameInput}
-            onChange={(e) => setNameInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleAddPlayer();
-            }}
-            placeholder="Ej. Ana"
-            className="w-full rounded-2xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-          />
-          <button
-            onClick={handleAddPlayer}
-            className="rounded-2xl px-4 py-2 font-medium bg-emerald-500 text-white hover:bg-emerald-600 shadow"
-          >
-            Agregar
-          </button>
+          <InputBlock variant={"neubrutalism"}>
+            <Input
+              type="text"
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleAddPlayer();
+              }}
+              placeholder="Ej. Mauricio"
+            />
+          </InputBlock>
+          <Button_v1 onClick={handleAddPlayer}>Agregar</Button_v1>
         </div>
         {players.length > 0 && (
-          <ul className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             {players.map((p, i) => (
-              <li
+              <Button
                 key={i}
-                className="flex items-center gap-2 rounded-2xl border bg-white px-3 py-1 shadow-sm"
+                size={"xs"}
+                className="rounded-sm flex"
+                variant="secondary"
+                onClick={() => removePlayer(i)}
               >
                 <span className="font-medium">{p}</span>
-                <button
-                  onClick={() => removePlayer(i)}
-                  className="rounded-full px-2 py-0.5 text-xs border hover:bg-gray-50"
-                  title="Eliminar"
-                >
-                  ✕
-                </button>
-              </li>
+                <X className="w-4 ml-1" />
+              </Button>
             ))}
-          </ul>
+          </div>
         )}
         {players.length === 0 && (
-          <p className="mt-2 text-sm opacity-70">
+          <p className="mt-1 text-sm opacity-70">
             Agrega al menos 3 jugadores.
           </p>
         )}
@@ -103,72 +104,74 @@ const SetupPhase = ({ startPreparation }: Props) => {
       {/* Categoría y palabras */}
       <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Categoría</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full rounded-2xl border px-3 py-2 bg-white shadow-sm"
-          >
-            {categories.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
+          <label className="block text-sm font-medium mb-1">Categoría:</label>
+          <InputBlock variant={"neubrutalism"}>
+            <Select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {categories.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </Select>
+          </InputBlock>
           {category !== "Personalizado..." && (
-            <p className="mt-2 text-xs opacity-70">
+            <p className="mt-1 text-xs opacity-70">
               {Object.keys(DATASETS[category]).length} palabras disponibles
             </p>
           )}
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="h-max">
+          <label className="block text-sm font-medium mb-1">
             Palabras personalizadas (opcional)
           </label>
-          <textarea
-            value={customWordsRaw}
-            onChange={(e) => setCustomWordsRaw(e.target.value)}
-            placeholder={
-              "Escribe palabras separadas por coma, punto y coma o salto de línea"
-            }
-            rows={5}
-            className="w-full rounded-2xl border px-3 py-2 bg-white shadow-sm"
-          />
-          <p className="mt-2 text-xs opacity-70">
+          <InputBlock variant={"neubrutalism"} className="h-full">
+            <TextArea
+              value={customWordsRaw}
+              onChange={(e) => setCustomWordsRaw(e.target.value)}
+              placeholder={
+                "Escribe palabras separadas por coma, punto y coma o salto de línea"
+              }
+              rows={5}
+              className="resize-none"
+            />
+          </InputBlock>
+          <p className="mt-1 text-xs opacity-70 mb-6">
             Se usará si eliges la categoría &quot;Personalizado...&quot;.
           </p>
         </div>
       </div>
-
+      <Separator gradient className="mb-6" />
       {/* Opciones de juego */}
       <div className="mb-6">
-        <label className="block text-sm font-medium mb-3">
+        <label className="block text-sm font-medium mb-1">
           Opciones de juego
         </label>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={enableHints}
-              onChange={(e) => setEnableHints(e.target.checked)}
-              className="w-4 h-4 text-emerald-600 bg-gray-100 border-gray-300 rounded focus:ring-emerald-500"
+              onCheckedChange={(checked) => {
+                setEnableHints(!!checked);
+              }}
             />
             <span className="text-sm">💡 Mostrar pistas al impostor</span>
           </label>
-          <div className="text-xs opacity-70">
+          <div className="text-xs opacity-70 ">
             El impostor verá una pista sobre la palabra secreta
           </div>
         </div>
       </div>
-
-      <div className="flex flex-wrap items-center gap-3">
-        <button
+      <div className="flex flex-wrap items-center  gap-3">
+        <EyeCatchingButton_v2
           onClick={onClickStart}
-          className="rounded-2xl px-5 py-2.5 font-semibold bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg disabled:opacity-50"
           disabled={players.length < 3}
+          className="bg-tamarillo-500 dark"
         >
-          Sortear e iniciar turnos
-        </button>
+          Comenzar el juego
+        </EyeCatchingButton_v2>
         <div className="flex items-center gap-2 text-sm opacity-80">
           <Pill>👥 {players.length} jugadores</Pill>
           <Pill>🗂️ {category}</Pill>

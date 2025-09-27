@@ -1,4 +1,5 @@
-import useImpostorGameStore from "@/app/stores/ImpostorGameStore";
+import { STEPS } from "@/lib/types";
+import useImpostorGameStore from "@/stores/ImpostorGameStore";
 import React from "react";
 
 type Props = {
@@ -19,7 +20,7 @@ const DiscussionStep = ({ restartSamePlayers, newGame }: Props) => {
       </p>
       <div className="flex flex-col sm:flex-row justify-center gap-3">
         <button
-          onClick={() => changeStep("revealed")}
+          onClick={() => changeStep(STEPS.revealed)}
           className="rounded-2xl px-6 py-3 font-semibold bg-rose-600 text-white hover:bg-rose-700 shadow"
         >
           Revelar impostor y palabra
