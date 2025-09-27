@@ -3,8 +3,8 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header className="mb-6 flex items-center justify-between">
-      <h1 className="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-2">
+    <header className="mb-6 flex flex-col md:flex-row items-center justify-between">
+      <h1 className="text-2xl md:text-4xl font-bold tracking-tight flex items-center gap-2">
         <Image
           src="/logo.png"
           alt="Logo"

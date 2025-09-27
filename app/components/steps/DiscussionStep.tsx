@@ -1,6 +1,8 @@
 import { STEPS } from "@/lib/types";
 import useImpostorGameStore from "@/stores/ImpostorGameStore";
-import React from "react";
+import { Button_v1, Button_v2 } from "../commons/Button";
+import { Button } from "../ui/button";
+import { Separator } from "../commons/Separator";
 
 type Props = {
   restartSamePlayers: () => void;
@@ -18,25 +20,17 @@ const DiscussionStep = ({ restartSamePlayers, newGame }: Props) => {
         Todos han visto su rol. Comiencen a dar pistas, hacer preguntas y
         acusar. Cuando estén listos, revelen el resultado.
       </p>
-      <div className="flex flex-col sm:flex-row justify-center gap-3">
-        <button
-          onClick={() => changeStep(STEPS.revealed)}
-          className="rounded-2xl px-6 py-3 font-semibold bg-rose-600 text-white hover:bg-rose-700 shadow"
-        >
+      <div className="flex flex-col justify-center gap-3 w-full max-w-md mx-auto">
+        <Button_v2 onClick={() => changeStep(STEPS.revealed)} size={"lg"}>
           Revelar impostor y palabra
-        </button>
-        <button
-          onClick={restartSamePlayers}
-          className="rounded-2xl px-6 py-3 font-semibold border hover:bg-gray-50"
-        >
-          Reiniciar (mismos jugadores)
-        </button>
-        <button
-          onClick={newGame}
-          className="rounded-2xl px-6 py-3 font-semibold border hover:bg-gray-50"
-        >
-          Nuevo juego (nuevos jugadores)
-        </button>
+        </Button_v2>
+        <Separator label={<span className="px-2">Otra Ronda</span>} />
+        <Button_v1 onClick={restartSamePlayers} size={"lg"}>
+          Repetir categoria
+        </Button_v1>
+        <Button variant={"outline"} onClick={newGame} size={"lg"}>
+          Nuevo juego
+        </Button>
       </div>
     </section>
   );

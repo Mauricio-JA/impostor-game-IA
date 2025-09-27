@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import Pill from "@/components/commons/Pill";
+import { useState } from "react";
 import useImpostorGameStore from "@/stores/ImpostorGameStore";
 import { GameState, STEPS } from "@/lib/types";
 import { DATASETS } from "@/lib/datasets";
+import { Button_v1, Button_v2, Button_v3 } from "../commons/Button";
+import { Lightbulb } from "lucide-react";
+import Summary from "../layout/Summary";
 
 type Props = {
   gameState: GameState;
@@ -31,25 +33,22 @@ const RevealTurnsStep = ({ gameState: gs }: Props) => {
         mire la pantalla.
       </p>
 
-      <div className="rounded-3xl border bg-white p-6 shadow-inner flex flex-col items-center text-center">
+      <div className="rounded-sm border bg-white p-6 shadow-inner flex flex-col items-center text-center">
         <div className="text-sm opacity-70 mb-2">Jugador actual</div>
         <div className="text-2xl font-bold mb-6">
           {gs.players[gs.order[gs.turn]]}
         </div>
 
         {!isRevealed ? (
-          <button
-            onClick={() => setIsRevealed(true)}
-            className="rounded-3xl px-6 py-4 font-bold text-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow"
-          >
+          <Button_v3 onClick={() => setIsRevealed(true)} size={"lg"}>
             Mostrar mi rol
-          </button>
+          </Button_v3>
         ) : (
           <div className="w-full max-w-md">
-            <div className="mb-4 rounded-2xl border p-4 bg-emerald-50">
+            <div className="mb-4 rounded-sm border p-4 bg-emerald-50">
               {gs.order[gs.turn] === gs.impostorIndex ? (
                 <>
-                  <div className="text-2xl font-extrabold">
+                  <div className="text-2xl font-extrabold ">
                     🤫 ¡Eres el IMPOSTOR!
                   </div>
                   <p className="mt-2 text-sm">
@@ -61,7 +60,8 @@ const RevealTurnsStep = ({ gameState: gs }: Props) => {
                     DATASETS[gs.category][gs.secretWord] && (
                       <div className="mt-4 p-3 rounded-xl bg-amber-50 border border-amber-200">
                         <div className="text-sm font-medium text-amber-800 mb-1">
-                          💡 Pista para el impostor:
+                          <Lightbulb className="size-4 text-yellow-500 inline-block align-text-top" />{" "}
+                          Pista para el impostor:
                         </div>
                         <div className="text-sm text-amber-700">
                           {DATASETS[gs.category][gs.secretWord]}
@@ -82,30 +82,32 @@ const RevealTurnsStep = ({ gameState: gs }: Props) => {
               )}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button_v1
                 onClick={() => setIsRevealed(false)}
-                className="flex-1 rounded-2xl px-4 py-3 font-semibold border hover:bg-gray-50"
+                size={"lg"}
+                className="flex-auto sm:flex-1"
               >
                 Ocultar
-              </button>
-              <button
+              </Button_v1>
+              <Button_v2
                 onClick={nextPlayer}
-                className="flex-1 rounded-2xl px-4 py-3 font-semibold bg-sky-600 text-white hover:bg-sky-700"
+                size={"lg"}
+                className="flex-auto sm:flex-1"
               >
-                Siguiente jugador ▶
-              </button>
+                Siguiente jugador
+              </Button_v2>
             </div>
           </div>
         )}
       </div>
-
-      <div className="mt-6 flex flex-wrap items-center gap-2 text-xs opacity-70">
-        <Pill>👥 {gs.players.length} jugadores</Pill>
-        <Pill>🗂️ {gs.category}</Pill>
-        <Pill>🔒 Modo privado: mostrar/ocultar</Pill>
-        {gs.enableHints && <Pill>💡 Pistas habilitadas</Pill>}
-      </div>
+      <Summary
+        category={gs.category}
+        playersCount={gs.players.length}
+        enableHints={gs.enableHints}
+        privateMode
+        className="mt-6"
+      />
     </section>
   );
 };

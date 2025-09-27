@@ -1,4 +1,7 @@
 import { GameState } from "@/lib/types";
+import { Button_v1 } from "../commons/Button";
+import { Button } from "../ui/button";
+import { Separator } from "../commons/Separator";
 
 type Props = {
   restartSamePlayers: () => void;
@@ -14,7 +17,7 @@ const RevealedStep = ({
   return (
     <section className="text-center">
       <h2 className="text-xl font-semibold mb-4">Resultado de la ronda</h2>
-      <div className="mx-auto max-w-md rounded-3xl border bg-white shadow-inner p-6">
+      <div className="mx-auto max-w-md rounded-sm border bg-white shadow-inner p-6">
         <div className="text-sm opacity-70">El impostor era</div>
         <div className="text-3xl md:text-4xl font-extrabold mt-1">
           {gs.players[gs.impostorIndex]}
@@ -30,19 +33,14 @@ const RevealedStep = ({
         </div>
       </div>
 
-      <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
-        <button
-          onClick={restartSamePlayers}
-          className="rounded-2xl px-6 py-3 font-semibold bg-emerald-600 text-white hover:bg-emerald-700"
-        >
-          Otra ronda (mismos jugadores)
-        </button>
-        <button
-          onClick={newGame}
-          className="rounded-2xl px-6 py-3 font-semibold border hover:bg-gray-50"
-        >
+      <div className="mt-6 flex flex-col justify-center gap-3  w-full max-w-md mx-auto">
+        <Separator label={<span className="px-2">Otra Ronda</span>} />
+        <Button_v1 onClick={restartSamePlayers} size={"lg"}>
+          Repetir categoria
+        </Button_v1>
+        <Button variant={"outline"} onClick={newGame} size={"lg"}>
           Nuevo juego
-        </button>
+        </Button>
       </div>
     </section>
   );

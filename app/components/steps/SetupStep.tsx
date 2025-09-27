@@ -1,15 +1,15 @@
-import React, { useMemo, useState } from "react";
-import Pill from "../commons/Pill";
+import { useMemo, useState } from "react";
 import { DATASETS } from "../../lib/datasets";
 import usePlayers from "../../hooks/usePlayers";
 import { StartPreparationParams } from "../../hooks/useImpostorGame";
 import { Input, InputBlock, Select, TextArea } from "../commons/Input";
-import { Button_v1, Button_v8 } from "@/components/commons/Button";
+import { Button_v1 } from "@/components/commons/Button";
 import { Separator } from "@/components/commons/Separator";
 import { Button } from "../ui/button";
-import { X } from "lucide-react";
+import { Lightbulb, X } from "lucide-react";
 import { EyeCatchingButton_v2 } from "../commons/EyeCatchingButton";
 import { Checkbox } from "../ui/checkbox";
+import Summary from "../layout/Summary";
 
 type Props = {
   startPreparation: (params: StartPreparationParams) => void;
@@ -102,7 +102,7 @@ const SetupPhase = ({ startPreparation }: Props) => {
       </div>
 
       {/* Categoría y palabras */}
-      <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">Categoría:</label>
           <InputBlock variant={"neubrutalism"}>
@@ -143,13 +143,13 @@ const SetupPhase = ({ startPreparation }: Props) => {
           </p>
         </div>
       </div>
-      <Separator gradient className="mb-6" />
+      <Separator className="mb-4" />
       {/* Opciones de juego */}
       <div className="mb-6">
-        <label className="block text-sm font-medium mb-1">
+        <label className="block text-sm font-medium mb-2">
           Opciones de juego
         </label>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col justify-center gap-1">
           <label className="flex items-center gap-2 cursor-pointer">
             <Checkbox
               checked={enableHints}
@@ -157,7 +157,10 @@ const SetupPhase = ({ startPreparation }: Props) => {
                 setEnableHints(!!checked);
               }}
             />
-            <span className="text-sm">💡 Mostrar pistas al impostor</span>
+            <Lightbulb className="inline-block size-4 text-yellow-500" />
+            <span className="text-sm flex items-center">
+              Mostrar pistas al impostor
+            </span>
           </label>
           <div className="text-xs opacity-70 ">
             El impostor verá una pista sobre la palabra secreta
@@ -168,14 +171,16 @@ const SetupPhase = ({ startPreparation }: Props) => {
         <EyeCatchingButton_v2
           onClick={onClickStart}
           disabled={players.length < 3}
+          size={"lg"}
           className="bg-tamarillo-500 dark"
         >
           Comenzar el juego
         </EyeCatchingButton_v2>
-        <div className="flex items-center gap-2 text-sm opacity-80">
-          <Pill>👥 {players.length} jugadores</Pill>
-          <Pill>🗂️ {category}</Pill>
-        </div>
+        <Summary
+          category={category}
+          playersCount={players.length}
+          enableHints={enableHints}
+        />
       </div>
     </section>
   );
